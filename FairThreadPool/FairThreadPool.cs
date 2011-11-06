@@ -25,6 +25,18 @@ using System.Threading;
 
 namespace FairThreadPool
 {
+    /// <summary>
+    /// The "Fair Thread Pool", an instanciable thread pool that allows
+    /// "fair scheduling" of enqueued workers. Worker jobs are associated to
+    /// tags, which may be viewed as a family marker for jobs. Job scheduling
+    /// alternate between the tags in round robin each time a thread has to pick
+    /// a worker to run. Inside a given tag jobs are scheduled in fifo order.
+    /// 
+    /// Workers are simply 'Action' or 'Func<>'.
+    /// Action can be waited for if you want or simply forgotten.
+    /// Func<> may return any type of value. The returned value is accessed
+    /// through a Future pattern.
+    /// </summary>
     public sealed class FairThreadPool : IDisposable
     {
         /// <summary>
@@ -43,6 +55,14 @@ namespace FairThreadPool
             _name = name;
             NThreads = maxThreads;
             StartThreads();
+        }
+
+        /// <summary>
+        /// The name of the FairThreadPool instance.
+        /// </summary>
+        public string Name
+        {
+            get { return _name; }
         }
 
         /// <summary>
@@ -283,10 +303,10 @@ namespace FairThreadPool
 
         static long _id;
 
-        string _name;
-        object _condition = new object();
-        HashSet<Thread> _threads = new HashSet<Thread>();
-        FairQueue<Action> _actions = new FairQueue<Action>();
+        readonly string _name;
+        readonly object _condition = new object();
+        readonly HashSet<Thread> _threads = new HashSet<Thread>();
+        readonly FairQueue<Action> _actions = new FairQueue<Action>();
         int _running_workers;
         volatile int _current_n_of_threads;
         volatile int _wanted_n_of_threads;
