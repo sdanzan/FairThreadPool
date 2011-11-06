@@ -4,3 +4,6 @@ obj
 *.obj
 *.dll
 *.suo
+*.user
+
+nunit.*
