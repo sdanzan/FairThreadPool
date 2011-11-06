@@ -118,8 +118,8 @@ namespace FairThreadPool.Tests
                 int intToCheck = rng.Next();
 
                 var futureInt = ftp.QueueWorker(() => intToCheck);
-                var futureStr = ftp.QueueWorker(() => "Forty two");
-                var futureDateTime = ftp.QueueWorker(() => DateTime.UtcNow);
+                var futureStr = ftp.QueueWorker(rng.Next(12), () => "Forty two");
+                var futureDateTime = ftp.QueueWorker(rng.Next(), () => DateTime.UtcNow);
                 var futureExc = ftp.QueueWorker<int>(() => { throw new InvalidOperationException(); });
 
                 Assert.AreEqual(intToCheck, futureInt.Value);
