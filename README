@@ -1,9 +1,13 @@
 A simple thread pool allowing scheduling of jobs in a "fair" way. Jobs are
 enqueued in the pool associated to a tag. To pick a job to run, the threads
-in the pool cycle through the tags in round robin. Jobs with the same tag 
-are picked in fifo order.
+in the pool cycle through the tags in round robin. Thus you're guaranted
+that jobs associated to a tag are never blocked by a bunch jobs associated to
+another tag: the pool will alternate between tags when picking jobs from
+its queue.
 
-If you compile the project through the FairThreadPool.sln solution, a test
-dll requiring NUunit is also built. NUnit dlls are xpexted to be found in
-the 'externals' folder. To compile without the tests you may use the
-FairThreadPoolWithoutTest.sln solution.
+The interface is simple and allows:
+	- pushing jobs in the pool and forget them.
+	- pushing jobs and wait for completion.
+	- pushing jobs and get a result through use of the Future pattern.
+	- changing the number of threads in the pool at runtime.
+	- multiple thread pools: the FairThreadPool is not a singleton.
