@@ -93,7 +93,7 @@ namespace FairThreadPool
         }
 
         /// <summary>
-        /// Wait for the Furture to be ready.
+        /// Wait for the Future to be ready.
         /// </summary>
         public void Wait()
         {

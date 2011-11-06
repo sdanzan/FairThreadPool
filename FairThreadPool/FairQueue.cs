@@ -32,7 +32,7 @@ namespace FairThreadPool
     /// That means no tag can "block" the dequeueing of elements bound to another tag. Data in the same tagged
     /// queue is dequeued in fifo order. 
     /// Enqueuing and Dequeuing are both O(1).
-    /// This class is not thread safe, if needed synchronization burden belongs to the caller.
+    /// This class is not thread safe and if synchronization is needed the burden belongs to the caller.
     /// </summary>
     public class FairQueue<TData>
     {
