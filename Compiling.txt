@@ -1,4 +1,8 @@
-If you compile the project through the FairThreadPool.sln solution, a test
-dll requiring NUunit is also built. NUnit dlls are xpexted to be found in
-the 'externals' folder. To compile without the tests you may use the
-FairThreadPoolWithoutTest.sln solution.
+Compiling the project should be done via the FairThreadPool.sln
+solution. It should work both with Visual Studio and MonoDevelop.
+
+The FairThreadPoolWithTests.sln compile a test dll requiring NUnit.
+NUnit 2.5+ is required and the NUnit dlls are expected to be found
+in the 'externals' folder. Though it cannot use Mono(Develop)
+provided NUnit libraries (they ship 2.4.8), MonoDevelop is still
+able to run the tests fine within its integrated interface.

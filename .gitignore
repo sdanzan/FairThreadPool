@@ -1,9 +1,13 @@
 bin
 obj
+test-results
 
 *.obj
 *.dll
+*.pdb
+*.pidb
 *.suo
 *.user
+*.userprefs
 
 nunit.*
