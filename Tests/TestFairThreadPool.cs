@@ -122,11 +122,15 @@ namespace FairThreadPool.Tests
                 var futureDateTime = ftp.QueueWorker(rng.Next(), () => DateTime.UtcNow);
                 var futureExc = ftp.QueueWorker<int>(() => { throw new InvalidOperationException(); });
 
-                Assert.AreEqual(intToCheck, futureInt.Value);
-                Assert.AreEqual("Forty two", futureStr.Value);
-                Assert.GreaterOrEqual(futureDateTime.Value, now);
-                var ex = Assert.Throws(typeof(FutureValueException), () => { int r = futureExc.Value; });
+                Assert.AreEqual(intToCheck, futureInt.Value, "The Future returned a bad value.");
+                Assert.AreEqual("Forty two", futureStr.Value, "The Future returned a bad value.");
+                Assert.GreaterOrEqual(futureDateTime.Value, now, "The Future should return a date in the future!");
+
+                int r_e = rng.Next ();
+                int r_f = r_e;
+                var ex = Assert.Throws(typeof(FutureValueException), () => { r_f = futureExc.Value; }, "Exception type is incorrect.");
                 Assert.IsTrue(ex.InnerException is InvalidOperationException);
+                Assert.AreEqual(r_e, r_f, "The Future should not transmit a value.");
 
                 Assert.AreEqual(0, ftp.Pending, "There sould not be any pending job");
             }
@@ -145,10 +149,10 @@ namespace FairThreadPool.Tests
                 using (var toggle = new ManualResetEvent(false))
                 {
                     var futureInt = ftp.QueueWorker(() => { toggle.WaitOne(); return 42; });
-                    Assert.IsFalse(futureInt.Wait(new TimeSpan(0, 0, 0, 0, 10)));
-                    Assert.IsFalse(futureInt.Wait(10));
+                    Assert.IsFalse(futureInt.Wait(new TimeSpan(0, 0, 0, 0, 10)), "The Future should time out.");
+                    Assert.IsFalse(futureInt.Wait(10), "The Future should time out.");
                     toggle.Set();
-                    Assert.AreEqual(42, futureInt.Value);
+                    Assert.AreEqual(42, futureInt.Value, "The Future returned a bad value.");
                 }
 
                 Assert.AreEqual(0, ftp.Pending, "There sould not be any pending job");
