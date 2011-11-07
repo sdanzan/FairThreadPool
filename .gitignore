@@ -10,5 +10,6 @@ packages
 *.suo
 *.user
 *.userprefs
+*.orig
 
 nunit.*
