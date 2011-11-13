@@ -11,3 +11,6 @@ The interface is simple and allows:
 	- pushing jobs and get a result through use of the Future pattern.
 	- changing the number of threads in the pool at runtime.
 	- multiple thread pools: the FairThreadPool is not a singleton.
+
+
+Obsoleted by the SimpleConcurrency library: https://github.com/sdanzan/SimpleConcurrency
